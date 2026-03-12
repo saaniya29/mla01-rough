@@ -1,0 +1,42 @@
+from collections import deque
+
+def valid(s):
+    ml, cl, b, mr, cr = s
+    return (0 <= ml <= 3 and 0 <= cl <= 3 and
+            0 <= mr <= 3 and 0 <= cr <= 3 and
+            (ml >= cl or ml == 0) and
+            (mr >= cr or mr == 0))
+
+def successors(s):
+    ml, cl, b, mr, cr = s
+    moves = [(1,1),(1,0),(0,1),(2,0),(0,2)]
+    res = []
+    for m, c in moves:
+        if b:   # boat on left
+            ns = (ml-m, cl-c, 0, mr+m, cr+c)
+        else:   # boat on right
+            ns = (ml+m, cl+c, 1, mr-m, cr-c)
+        if valid(ns):
+            res.append(ns)
+    return res
+
+def solve():
+    start, goal = (3,3,1,0,0), (0,0,0,3,3)
+    q = deque([(start, [])])
+    seen = {start}
+
+    while q:
+        s, path = q.popleft()
+        if s == goal:
+            return path + [s]
+        for n in successors(s):
+            if n not in seen:
+                seen.add(n)
+                q.append((n, path + [s]))
+
+def print_solution(sol):
+    for s in sol:
+        print(f"L: M{s[0]} C{s[1]} | Boat:{'L' if s[2] else 'R'} | R: M{s[3]} C{s[4]}")
+
+solution = solve()
+print_solution(solution)
