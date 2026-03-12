@@ -1,0 +1,12 @@
+def minimax(depth, node, maximizing):
+    if depth == 0:
+        return node
+
+    if maximizing:
+        return max(minimax(depth-1, n, False) for n in node)
+    else:
+        return min(minimax(depth-1, n, True) for n in node)
+
+
+tree = [[3,5], [2,9]]
+print("Best value:", minimax(2, tree, True))
