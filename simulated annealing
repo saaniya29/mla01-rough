@@ -1,0 +1,12 @@
+import random, math
+def simulated_annealing(x):
+    T = 100
+    while T > 1:
+        new_x = x + random.choice([-1, 1])
+        delta = new_x**2 - x**2
+
+        if delta < 0 or random.random() < math.exp(-delta/T):
+            x = new_x
+        T *= 0.9
+    return x
+print("Best state:", simulated_annealing(10))
