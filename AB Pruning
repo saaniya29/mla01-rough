@@ -1,0 +1,24 @@
+def alphabeta(depth, node, alpha, beta, maximizing):
+    if depth == 0:
+        return node
+
+    if maximizing:
+        value = -999
+        for n in node:
+            value = max(value, alphabeta(depth-1, n, alpha, beta, False))
+            alpha = max(alpha, value)
+            if alpha >= beta:
+                break
+        return value
+    else:
+        value = 999
+        for n in node:
+            value = min(value, alphabeta(depth-1, n, alpha, beta, True))
+            beta = min(beta, value)
+            if beta <= alpha:
+                break
+        return value
+
+
+tree = [[3,5], [2,9]]
+print("Best value:", alphabeta(2, tree, -999, 999, True))
